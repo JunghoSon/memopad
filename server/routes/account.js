@@ -30,8 +30,8 @@ router.post('/singup', (req, res) => {
         }
         
         let account = new Account({
-            username = req.body.username,
-            password = req.body.password
+            username: req.body.username,
+            password: req.body.password
         });
         
         account.password = account.generateHash(account.password);
