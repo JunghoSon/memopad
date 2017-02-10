@@ -4,17 +4,17 @@ import Account from '../models/account';
 const router = express.Router();
 
 router.post('/signup', (req, res) => {
-    let usernameRegex = /^[a-z0-9]+$/;
-    console.log(req.body.username);
-    console.log(usernameRegex.test(req.body.username));
+    let usernameRegex = /^[a-z0-9_-]\w{5,20}$/;
+    let passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{6,16}$/;
+    
     if(!usernameRegex.test(req.body.username)){
         return res.status(400).json({
             error: 'BAD USERNAME',
             code: 1
         });
     }
-    console.log(req.body.password.length);
-    if(req.body.password.length < 4 || typeof req.body.password !== 'string'){
+    
+    if(!passwordRegex.test(req.body.password) || typeof req.body.password !== 'string'){
         return res.status(400).json({
             error: 'BAD PASSWORD',
             code: 2

@@ -19,9 +19,9 @@ class Register extends Component{
                            return true;
                        }else{
                            let errorMessage = [
-                                'Invalid Username',
-                                'Password is too short',
-                                'Username already exists'
+                                '아이디는 대, 소문자, _, - 조합 5~15자만 가능합니다.',
+                                '비밀번호는 대, 소문자, 특수문자 조합 6~16자만 가능합니다.',
+                                '이미 존재하는 아이디 입니다.'
                             ];
          
                             let $toastContent = $('<span style="color: #FFB4BA">' + errorMessage[this.props.errorCode - 1] + '</span>');
