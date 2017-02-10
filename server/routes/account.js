@@ -3,10 +3,10 @@ import Account from '../models/account';
 
 const router = express.Router();
 
-router.post('/singup', (req, res) => {
+router.post('/signup', (req, res) => {
     let usernameRegex = /^[a-z0-9]+$/;
     
-    if(usernameRegex.test(req.body.username)){
+    if(!usernameRegex.test(req.body.username)){
         return res.status(400).json({
             error: 'BAD USERNAME',
             code: 1
@@ -22,7 +22,7 @@ router.post('/singup', (req, res) => {
     
     Account.findOne({username: req.body.username}, (err, exists) => {
         if(err) throw err;
-        if(exist){
+        if(exists){
             return res.status(409).json({
                 error: 'USERNAME EXISTS',
                 code: 3
@@ -45,7 +45,7 @@ router.post('/singup', (req, res) => {
     });
 });
 
-router.post('/singin', (req, res) => {
+router.post('/signin', (req, res) => {
     if(typeof req.body.password !== 'string'){
         return res.status(401).json({
             error: 'LOGIN FAILED',

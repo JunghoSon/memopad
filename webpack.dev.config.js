@@ -21,7 +21,7 @@ module.exports = {
         historyApiFallback: true,
         contentBase: './public',
         proxy: {
-            "**": "http://localhost:3000"
+            '/api': 'http://localhost:3000'
         },
         stats: {
             assets: false,
@@ -35,9 +35,7 @@ module.exports = {
     },
     
     plugins: [
-        //new webpack.optimize.OccurenceOrderPlugin(), 
         new webpack.HotModuleReplacementPlugin()
-        //new webpack.NoErrorsPlugin()
     ],
     
     module: {
@@ -58,7 +56,6 @@ module.exports = {
     },
     
     resolve: {
-        //root: path.resolve('./src')
         modules: [
             path.resolve('./src'),
             'node_modules'

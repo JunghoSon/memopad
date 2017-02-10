@@ -5,9 +5,9 @@ class Header extends Component{
     render() {
         const loginButton = (
             <li>
-                <a>
+                <Link to="/login">
                     <i className="material-icons">vpn_key</i>
-                </a>
+                </Link>
             </li>
         );
  

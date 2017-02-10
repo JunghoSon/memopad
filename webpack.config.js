@@ -29,7 +29,6 @@ module.exports = {
     },
     
     resolve: {
-        //root: path.resolve('./src')
         modules: [
             path.resolve('./src'),
             'node_modules'
