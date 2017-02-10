@@ -5,15 +5,16 @@ const router = express.Router();
 
 router.post('/signup', (req, res) => {
     let usernameRegex = /^[a-z0-9]+$/;
-    
+    console.log(req.body.username);
+    console.log(usernameRegex.test(req.body.username));
     if(!usernameRegex.test(req.body.username)){
         return res.status(400).json({
             error: 'BAD USERNAME',
             code: 1
         });
     }
-    
-    if(req.body.password < 4 || typeof req.body.password !== 'string'){
+    console.log(req.body.password.length);
+    if(req.body.password.length < 4 || typeof req.body.password !== 'string'){
         return res.status(400).json({
             error: 'BAD PASSWORD',
             code: 2
@@ -46,6 +47,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/signin', (req, res) => {
+    console.log('in: ',req.body);
     if(typeof req.body.password !== 'string'){
         return res.status(401).json({
             error: 'LOGIN FAILED',

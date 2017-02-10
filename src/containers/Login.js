@@ -13,16 +13,15 @@ class Login extends Component{
     handleLogin(id, pw){
         return this.props.loginRequest(id, pw)
                    .then(() => {
-                       console.log(this.props);
                        if(this.props.status === 'SUCCESS'){
                            let loginData = {
-                               isLoggeIn: true,
+                               isLoggedIn: true,
                                username: id
                            };
                            
                            document.cookie = 'key=' + btoa(JSON.stringify(loginData));
-                           
                            Materialize.toast('Welcome, ' + id + '!', 2000);
+                           browserHistory.push('/');
                            return true;
                        }else{
                            let $toastContent = $('<span style="color: #FFB4BA">Incorrect username or password</span>');
