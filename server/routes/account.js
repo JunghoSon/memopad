@@ -1,5 +1,14 @@
 import express from 'express';
 import Account from '../models/account';
+import email from 'emailjs';
+
+const server = email.server.connect({
+    user: 'publison',
+    password: 'wjdgh0754522',
+    host: 'smtp.naver.com',
+    port: 465,
+    ssl: true
+});
 
 const router = express.Router();
 
@@ -39,6 +48,18 @@ router.post('/signup', (req, res) => {
         
         account.save(err => {
             if(err) throw err;
+            
+            const message = {
+                text: '테스트메일 내용',
+                from: 'publison@naver.com',
+                to: 'jhson0819@gmail.com',
+                subject: '테스트메일 제목'
+            };
+            
+            server.send(message, function(err, message){
+                //console.log(err || message);
+            });
+            
             return res.json({
                 success: true
             });

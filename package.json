@@ -24,8 +24,10 @@
     "axios": "^0.15.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.16.0",
+    "emailjs": "^1.0.8",
     "express": "^4.14.1",
     "express-session": "^1.15.0",
+    "mailjs": "^0.1.7",
     "mongoose": "^4.8.1",
     "morgan": "^1.8.0",
     "path": "^0.12.7",
@@ -48,5 +50,5 @@
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
-   }
+  }
 }
