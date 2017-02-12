@@ -15,7 +15,7 @@ import {
 export function loginRequest(username, password){
     return (dispatch) => {
         dispatch(login());
-        
+
         return axios.post('/api/account/signin', {username, password})
                     .then((response) => {
                         dispatch(loginSuccess(username));
@@ -24,7 +24,7 @@ export function loginRequest(username, password){
                         console.log(error);
                         dispatch(loginFailure());
                     });
-    }
+    };
 }
 
 export function login(){
@@ -49,7 +49,7 @@ export function loginFailure(){
 export function registerRequest(username, password){
     return (dispatch) => {
         dispatch(register());
-        
+
         return axios.post('/api/account/signup', {username, password})
                     .then((response) => {
                         dispatch(registerSuccess());
@@ -81,7 +81,7 @@ export function registerFailure(error){
 export function getStatusRequest(){
     return (dispatch) => {
         dispatch(getStatus());
-        
+
         return axios.get('/api/account/getInfo')
                     .then((response) => {
                         console.log(response);
@@ -96,7 +96,7 @@ export function getStatusRequest(){
 export function getStatus(){
     return {
         type: AUTH_GET_STATUS
-    }
+    };
 }
 
 export function getStatusSuccess(username){
