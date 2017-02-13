@@ -148,4 +148,11 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/:listType/:id', (req, res) => {
+    let listType = req.params.listType;
+    let id =req.params.id;
+    
+    
+});
+
 export default router;
