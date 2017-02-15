@@ -5,7 +5,10 @@ import {
     MEMO_POST_FAILURE,
     MEMO_LIST,
     MEMO_LIST_SUCCESS,
-    MEMO_LIST_FAILURE
+    MEMO_LIST_FAILURE,
+    MEMO_EDIT,
+    MEMO_EDIT_SUCCESS,
+    MEMO_EDIT_FAILURE
 } from './ActionTypes';
 
 export function memoPostRequest(contents){
@@ -80,5 +83,40 @@ export function memoListSuccess(data, isInitial, listType){
 export function memoListFailure(){
     return {
         type: MEMO_LIST_FAILURE
+    };
+}
+
+export function memoEditRequest(id, index, contents){
+    return (dispatch) => {
+        dispatch(memoEdit());
+        
+        return axios.put('/api/memo/' + id, {contents})
+                    .then((response) => {
+                        dispatch(memoEditSuccess(index, response.data.memo));
+                    })
+                    .catch((error) => {
+                        dispatch(memoEditFailure(error.response.data.code));
+                    });
+    }
+}
+
+export function memoEdit(){
+    return {
+        type: MEMO_EDIT
+    };
+}
+
+export function memoEditSuccess(index, memo){
+    return {
+        type: MEMO_EDIT_SUCCESS,
+        index,
+        memo
+    };
+}
+
+export function memoEditFailrue(error){
+    return {
+        type: MEMO_EDIT_FAILURE,
+        error
     };
 }
