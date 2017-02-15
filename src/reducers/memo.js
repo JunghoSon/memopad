@@ -54,6 +54,23 @@ export default function memo(state, action){
                         isLast: {$set: action.data.length < 6}
                     }
                 });    
+            }else{
+                if(action.listType === 'new'){
+                    return update(state, {
+                        list: {
+                            status: {$set: 'SUCCESS'},
+                            data: {$unshift: action.data}
+                        }
+                    });
+                }else{
+                    return update(state, {
+                        list: {
+                            status: {$set: 'SUCCESS'},
+                            data: {$push: action.data},
+                            isLast: {$set: action.data.length < 6}
+                        }
+                    });
+                }
             }
             
             return state;

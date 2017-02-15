@@ -43,9 +43,15 @@ export function memoPostFailure(error){
 
 export function memoListRequest(isInitial, listType, id, username){
     return (dispatch) => {
-        dispatch(memoList);
+        dispatch(memoList());
         
         let url = '/api/memo';
+        
+        if(typeof username === 'undefined'){
+            url = isInitial ? url : `${url}/${listType}/${id}`;
+        }else{
+            
+        }
         
         return axios.get(url)
              .then((response) => {

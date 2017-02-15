@@ -152,7 +152,39 @@ router.get('/:listType/:id', (req, res) => {
     let listType = req.params.listType;
     let id =req.params.id;
     
+    if(listType !== 'old' && listType !== 'new'){
+        return res.status(400).json({
+            error: 'INVALID LISTTYPE',
+            code: 1
+        });
+    }
     
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(400).json({
+            error: 'INVALID ID',
+            code: 2
+        });
+    }
+    
+    let objId = new mongoose.Types.ObjectId(req.params.id);
+    
+    if(listType === 'new'){
+        Memo.find({_id: {$gt: objId}})
+            .sort({_id: -1})
+            .limit(6)
+            .exec((err, memos) => {
+                if(err) throw err;
+                return res.json(memos);
+            });
+    }else{
+        Memo.find({_id: {$lt: objId}})
+            .sort({_id: -1})
+            .limit(6)
+            .exec((err, memos) => {
+                if(err) throw err;
+                return res.json(memos);
+            });
+    }
 });
 
 export default router;
