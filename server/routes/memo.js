@@ -187,4 +187,50 @@ router.get('/:listType/:id', (req, res) => {
     }
 });
 
+router.post('/star/:id', (req, res) => {
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+        return res.status(400).json({
+            error: 'INVALID ID',
+            code: 1
+        });
+    }
+    
+    if(typeof req.session.loginInfo === 'undefined'){
+        return res.status(403).json({
+            error: 'NOT LOGGED IN',
+            code: 2
+        });
+    }
+    
+    Memo.findById(req.params.id, (err, memo) => {
+        if(err) throw err;
+        
+        if(!memo){
+            return res.status(404).json({
+                error: 'NO RESOURCE',
+                code: 3
+            });
+        }
+        
+        let index = memo.starred.indexOf(req.session.loginInfo.username);
+        
+        let hasStarred = (index === -1) ? false : true;
+        
+        if(!hasStarred){
+            memo.starred.push(req.session.loginInfo.username);
+        }else{
+            memo.starred.splice(index, 1);
+        }
+        
+        memo.save((err, memo) => {
+            if(err) throw err;
+            res.json({
+                success: true,
+                'has_starred': !hasStarred,
+                memo
+            });
+        });
+    });
+});
+
 export default router;

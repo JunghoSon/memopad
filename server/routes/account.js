@@ -68,7 +68,6 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/signin', (req, res) => {
-    console.log('in: ',req.body);
     if(typeof req.body.password !== 'string'){
         return res.status(401).json({
             error: 'LOGIN FAILED',
@@ -98,6 +97,8 @@ router.post('/signin', (req, res) => {
             _id: account._id,
             username: account.username
         };
+        
+        console.log(session.loginInfo);
         
         return res.json({
             success: true

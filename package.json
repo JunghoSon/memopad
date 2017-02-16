@@ -22,6 +22,7 @@
   "homepage": "https://github.com/JunghoSon/memopad#readme",
   "dependencies": {
     "axios": "^0.15.3",
+    "babel-polyfill": "^6.23.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.16.0",
     "emailjs": "^1.0.8",
@@ -32,6 +33,7 @@
     "morgan": "^1.8.0",
     "path": "^0.12.7",
     "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.4.2",
     "react-addons-update": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",

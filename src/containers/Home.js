@@ -5,7 +5,8 @@ import {
     memoPostRequest,
     memoListRequest,
     memoEditRequest,
-    memoRemoveRequest
+    memoRemoveRequest,
+    memoStarRequest
 } from 'actions/memo';
 
 class Home extends Component{
@@ -22,6 +23,7 @@ class Home extends Component{
         this.loadOldMemo = this.loadOldMemo.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
+        this.handleStar = this.handleStar.bind(this);
     }
     
     componentDidMount(){
@@ -158,12 +160,12 @@ class Home extends Component{
     handleRemove(id, index){
         return this.props.memoRemoveRequest(id, index)
                    .then(() => {
-                       if(this.props.removeStatus === 'SUCCESS'){
+                       if(this.props.removeStatus.status === 'SUCCESS'){
                            setTimeout(() => {
                                if($('body').height() < $(window).height()){
                                    this.loadOldMemo();
                                }
-                           });
+                           },1000);
                        }else{
                            let errorMessage = [
                                 'Something broke',
@@ -181,6 +183,26 @@ class Home extends Component{
                        }
                    });
     }
+    
+    handleStar(id, index){
+        return this.props.memoStarRequest(id, index)
+                   .then(() => {
+                       if(this.props.starStatus.status !== 'SUCCESS'){
+                           let errorMessage= [
+                               'Something broke',
+                               'You are not logged in',
+                               'That memo does not exist'
+                           ];
+                        
+                           let $toastContent = $('<span style="color: #FFB4BA">' + errorMessage[this.props.starStatus.error - 1] + '</span>');
+                           Materialize.toast($toastContent, 2000);
+                      
+                           if(this.props.starStatus.error === 2) {
+                               setTimeout(()=> {location.reload(false)}, 2000);
+                           }
+                       }
+                   });
+    }
 
     render(){
         const write = (<Write onPost={this.handlePost}/>);
@@ -192,7 +214,8 @@ class Home extends Component{
                     data={this.props.memoData} 
                     currentUser={this.props.currentUser}
                     onEdit={this.handleEdit}
-                    onRemove={this.handleRemove}/>
+                    onRemove={this.handleRemove}
+                    onStar={this.handleStar}/>
             </div>
         );
     }
@@ -207,7 +230,8 @@ const mapStateToProps = (state) => {
         listStatus: state.memo.list.status,
         isLast: state.memo.list.isLast,
         editStatus: state.memo.edit,
-        removeStatus: state.memo.remove
+        removeStatus: state.memo.remove,
+        starStatus: state.memo.star
     }
 };
 
@@ -224,6 +248,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         memoRemoveRequest: (id, index) => {
             return dispatch(memoRemoveRequest(id, index));
+        },
+        memoStarRequest: (id, index) => {
+            return dispatch(memoStarRequest(id, index));
         }
     }
 };

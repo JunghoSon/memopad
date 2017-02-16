@@ -13,6 +13,7 @@ class Memo extends Component{
         this.toggleEdit = this.toggleEdit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
+        this.handleStar = this.handleStar.bind(this);
     }
     
     componentDidUpdate(){
@@ -25,6 +26,21 @@ class Memo extends Component{
         $('#dropdown-button-' + this.props.data._id).dropdown({
             belowOrigin: true
         });
+    }
+    
+    shouldComponentUpdate(nextProps, nextState){
+        let current = {
+            props: this.props,
+            state: this.state
+        };
+        
+        let next = {
+            props: nextProps,
+            state: nextState
+        };
+        
+        let update = JSON.stringify(current) !== JSON.stringify(next);
+        return update;
     }
     
     toggleEdit(){
@@ -59,6 +75,13 @@ class Memo extends Component{
         this.props.onRemove(id, index);
     }
     
+    handleStar(){
+        let id = this.props.data._id;
+        let index = this.props.index;
+        
+        this.props.onStar(id, index);
+    }
+    
     render(){
         const {data, ownership} = this.props;
         
@@ -78,6 +101,8 @@ class Memo extends Component{
             </div>
         );
         
+        let starStyle = (this.props.data.starred.indexOf(this.props.currentUser) > -1) ? {color: '#ff9980'} : {};
+        
         const memoView = (
             <div className="card">
                 <div className="info">
@@ -89,7 +114,7 @@ class Memo extends Component{
                     {data.contents}
                 </div>
                 <div className="footer">
-                    <i className="material-icons log-footer-icon star icon-button">star</i>
+                    <i className="material-icons log-footer-icon star icon-button" style={starStyle} onClick={this.handleStar}>star</i>
                     <span className="star-count">{data.starred.length}</span>
                 </div>
             </div>
@@ -124,7 +149,9 @@ Memo.propTypes = {
     ownership: React.PropTypes.bool,
     onEdit: React.PropTypes.func,
     index: React.PropTypes.number,
-    onRemove: React.PropTypes.func
+    onRemove: React.PropTypes.func,
+    onStar: React.PropTypes.func,
+    currentUser: React.PropTypes.string
 };
 
 Memo.defaultProps = {
@@ -145,8 +172,12 @@ Memo.defaultProps = {
     },
     index: -1,
     onRemove: (id, index) => {
-        console.error('onRmove function not defined');
-    }
+        console.error('onRemove function not defined');
+    },
+    onStar: (id, index) => {
+        console.error('onStar function not defined');
+    },
+    currentUser: ''
 };
 
 export default Memo;
