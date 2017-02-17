@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 import TimeAgo from 'react-timeago';
 
 class Memo extends Component{
@@ -86,7 +87,7 @@ class Memo extends Component{
         const {data, ownership} = this.props;
         
         let editedInfo = (
-            <span style={{color: '#AAB5BC'}}> · Edited <TimeAgo date={this.props.data.date.edited} live={true}/></span>
+            <span style={{color: '#AAB5BC'}}> Edited <TimeAgo date={this.props.data.date.edited} live={true}/></span>
         );
         
         const dropDownMenu = (
@@ -101,12 +102,12 @@ class Memo extends Component{
             </div>
         );
         
-        let starStyle = (this.props.data.starred.indexOf(this.props.currentUser) > -1) ? {color: '#ff9980'} : {};
+        let starStyle = (data.starred.indexOf(this.props.currentUser) > -1) ? {color: '#ff9980'} : {};
         
         const memoView = (
             <div className="card">
                 <div className="info">
-                    <a className="username">{data.write}</a> wrote a log <TimeAgo date={data.date.created}/>
+                    <Link to={`/wall/${data.writer}`} className="username">{data.writer}</Link> wrote a log <TimeAgo date={data.date.created}/>
                     {this.props.data.is_edited ? editedInfo : undefined}
                     {ownership ? dropDownMenu : undefined}
                 </div>

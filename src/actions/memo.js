@@ -59,7 +59,7 @@ export function memoListRequest(isInitial, listType, id, username){
         if(typeof username === 'undefined'){
             url = isInitial ? url : `${url}/${listType}/${id}`;
         }else{
-            
+            url = isInitial ? `${url}/${username}` : `${url}/${username}/${listType}/${id}`;
         }
         
         return axios.get(url)
