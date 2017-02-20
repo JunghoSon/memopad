@@ -40,7 +40,7 @@ class Header extends Component{
                         <Link to="/" className="brand-logo center">HEYFRIEN</Link>
 
                         <ul>
-                            <li><a><i className="material-icons">search</i></a></li>
+                            <li><a onClick={this.toggleSearch}><i className="material-icons">search</i></a></li>
                         </ul>
 
                         <div className="right">

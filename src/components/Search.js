@@ -35,10 +35,11 @@ class Search extends Component{
         this.setState({
             keyword: e.target.value
         });
-        this.handleSerach(e.target.value);
+        this.handleSearch(e.target.value);
     }
 
     handleSearch(keyword){
+        console.log(keyword);
         this.props.onSearch(keyword);
     }
 
@@ -53,8 +54,9 @@ class Search extends Component{
 
     render(){
         const mapDataToLinks = (data) => {
+            console.log(data);
             return data.map((user, i) => {
-                <Link onClick={this.handleClose} to={`/wall/${user.username}`} key={i}>{user.username}</Link>
+                return <li><Link onClick={this.handleClose} to={`/wall/${user.username}`} key={i}>{user.username}</Link></li>
             });
         };
 

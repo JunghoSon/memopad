@@ -2,8 +2,17 @@ import React, {Component} from 'react';
 import {Header} from 'components';
 import {connect} from 'react-redux';
 import {getStatusRequest, logoutRequest} from 'actions/authentication';
+import {searchRequest} from 'actions/search';
 
 class App extends Component{
+    
+    constructor(props){
+        super(props);
+        
+        this.handleLogout = this.handleLogout.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+    }
+    
     componentDidMount(){
         function getCookie(name){
             var value = "; " + document.cookie;
@@ -34,12 +43,6 @@ class App extends Component{
             }
         });
     }
-    
-    constructor(props){
-        super(props);
-        
-        this.handleLogout = this.handleLogout.bind(this);
-    }
         
     handleLogout(){
         this.props.logoutRequest()
@@ -55,13 +58,17 @@ class App extends Component{
             });
     }
     
+    handleSearch(keyword){
+        return this.props.searchRequest(keyword);
+    }
+    
     render(){
         let re = /(login|register)/;
         let isAuth = re.test(this.props.location.pathname);
         
         return (
             <div>
-                {isAuth ? undefined : <Header isLoggedIn={this.props.status.isLoggedIn} onLogout={this.handleLogout}/>}
+                {isAuth ? undefined : <Header isLoggedIn={this.props.status.isLoggedIn} onLogout={this.handleLogout} onSearch={this.handleSearch} usernames={this.props.searchResults}/>}
                 {this.props.children}
             </div>
         );
@@ -70,7 +77,8 @@ class App extends Component{
 
 const mapStateToProps = (state) => {
     return {
-        status: state.authentication.status
+        status: state.authentication.status,
+        searchResults: state.search.usernames
     };
 };
 
@@ -81,6 +89,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         logoutRequest: () => {
             return dispatch(logoutRequest());
+        },
+        searchRequest: (keyword) => {
+            return dispatch(searchRequest(keyword));
         }
     };
 };
